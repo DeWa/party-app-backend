@@ -18,6 +18,6 @@ router.get('/images', isClient, imageRoute.getImages);
 router.get('/images/:sharecode', isClient, imageRoute.getImageBySharecode);
 
 // Temporary Auth
-router.post('/login', koaBody(), isClient, authRoute.postLogin);
+router.post('/login', koaBody(), authRoute.postLogin);
 
 export default router;

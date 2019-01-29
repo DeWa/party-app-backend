@@ -19,11 +19,12 @@ export default {
       return;
     }
     try {
-      if (ctx.request.body.password === config.PASSWORD) {
+      const reqBody = JSON.parse(ctx.request.body);
+      if (reqBody.password === config.PASSWORD) {
         ctx.status = 200;
-        ctx.body = {
+        ctx.body = JSON.stringify({
           apiKey: config.CLIENT_API_KEY,
-        };
+        });
       } else {
         ctx.status = 403;
       }
