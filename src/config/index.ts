@@ -1,4 +1,12 @@
-const { API_VERSION, DB_URL, NODE_ENV, PORT, PASSWORD, CLIENT_API_KEY } = process.env;
+const {
+  API_VERSION,
+  DB_URL,
+  NODE_ENV,
+  PORT,
+  PASSWORD,
+  CLIENT_API_KEY,
+  PHOTOBOOTH_API_KEY,
+} = process.env;
 
 const config = {
   API_VERSION,
@@ -6,6 +14,7 @@ const config = {
   DB_URL,
   NODE_ENV,
   PASSWORD,
+  PHOTOBOOTH_API_KEY,
   PORT,
 };
 
