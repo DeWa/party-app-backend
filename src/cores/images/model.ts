@@ -28,6 +28,16 @@ export const getImageBySharecode = async (sharecode: string) => {
     });
 };
 
+export const getImageById = async (id: number) => {
+  return await knex
+    .select('*')
+    .from('images')
+    .where({ id })
+    .then((rows: any) => {
+      return camelizeKeys(rows[0]) as IImage;
+    });
+};
+
 export const createCode = async (code: string) => {
   return await knex('images')
     .insert({
@@ -46,5 +56,15 @@ export const updateImage = async (code: string, imageData: IImageUploadUpdate) =
       thumbnail: imageData.thumbnail,
       updated_at: knex.fn.now(),
       uploaded: true,
+    });
+};
+
+export const getImageByName = async (name: string) => {
+  return await knex
+    .select('*')
+    .from('images')
+    .where({ filename: name })
+    .then((rows: any) => {
+      return camelizeKeys(rows[0]) as IImage;
     });
 };

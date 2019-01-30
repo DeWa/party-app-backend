@@ -1,10 +1,12 @@
-import { BaseContext } from 'koa';
+import { BaseContext, Context } from 'koa';
 import * as Joi from 'joi';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
+import * as sharp from 'sharp';
+import * as send from 'koa-send';
 
-import { getImages, createCode, updateImage, getImageBySharecode } from './model';
+import { getImages, createCode, updateImage, getImageBySharecode, getImageByName } from './model';
 
 const postCodeBodySchema = Joi.object().keys({
   code: Joi.string()
@@ -18,22 +20,18 @@ const postImagePathSchema = Joi.object().keys({
     .required(),
 });
 
-const getImageBySharecodePathSchema = Joi.object().keys({
-  sharecode: Joi.string()
-    .length(5)
-    .required(),
+// const getImageBySharecodePathSchema = Joi.object().keys({
+//   sharecode: Joi.string()
+//     .length(5)
+//     .required(),
+// });
+
+const binaryImagePathSchema = Joi.object().keys({
+  name: Joi.string().required(),
 });
 
 export default {
   getImageBySharecode: async (ctx: BaseContext) => {
-    const validated = Joi.validate(ctx.params, getImageBySharecodePathSchema);
-    if (validated.error) {
-      ctx.status = 400;
-      ctx.body = {
-        error: validated.error,
-      };
-      return;
-    }
     const sharecode = ctx.params.sharecode;
     const image = await getImageBySharecode(sharecode);
 
@@ -122,6 +120,54 @@ export default {
     } catch (err) {
       ctx.status = 500;
       console.log(err);
+    }
+  },
+  getBinaryImage: async (ctx: Context) => {
+    const validated = Joi.validate(ctx.params, binaryImagePathSchema);
+    if (validated.error) {
+      ctx.status = 400;
+      ctx.body = {
+        error: validated.error,
+      };
+      return;
+    }
+    const { name } = ctx.params;
+    const image = await getImageByName(name);
+
+    if (!image) {
+      ctx.status = 404;
+      return;
+    }
+    try {
+      await send(ctx, image.filename, { root: '/tmp', immutable: true });
+    } catch (err) {
+      console.log(err);
+      ctx.status = 404;
+      ctx.body = 'Not found';
+    }
+  },
+  getThumbBinaryImage: async (ctx: Context) => {
+    const validated = Joi.validate(ctx.params, binaryImagePathSchema);
+    if (validated.error) {
+      ctx.status = 400;
+      ctx.body = {
+        error: validated.error,
+      };
+      return;
+    }
+    const { name } = ctx.params;
+    const image = await getImageByName(name);
+
+    if (!image) {
+      ctx.status = 404;
+      return;
+    }
+    try {
+      await send(ctx, `thumb_${image.filename}`, { root: '/tmp', immutable: true });
+    } catch (err) {
+      console.log(err);
+      ctx.status = 404;
+      ctx.body = 'Not found';
     }
   },
 };
