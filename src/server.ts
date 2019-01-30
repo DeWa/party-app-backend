@@ -14,5 +14,5 @@ app.use(helmet());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-app.listen(parseInt(config.PORT, 10), '0.0.0.0');
+app.listen(parseInt(config.PORT, 10));
 console.log(`listening on port ${config.PORT}`);
