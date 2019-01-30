@@ -24,8 +24,9 @@
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
     "moment": "^2.24.0",
-    "pg": "^7.8.0"
+    "pg": "^7.8.0",
     "sharp": "^0.21.3",
+    "web-push": "^3.3.3"
   },
   "devDependencies": {
     "@types/humps": "^1.1.2",
@@ -41,6 +42,7 @@
     "@types/moment": "^2.13.0",
     "@types/pg": "^7.4.11",
     "@types/sharp": "^0.21.2",
+    "@types/web-push": "^3.3.0",
     "ban-sensitive-files": "^1.9.2",
     "nodemon": "^1.18.9",
     "prettify": "^0.1.7",
