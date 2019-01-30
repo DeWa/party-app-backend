@@ -7,6 +7,7 @@ import { IImage } from './type';
 interface IImageUploadUpdate {
   filename: string;
   path: string | Buffer;
+  thumbnail: string;
 }
 export const getImages = async () => {
   return await knex
@@ -42,6 +43,7 @@ export const updateImage = async (code: string, imageData: IImageUploadUpdate) =
     .update({
       filename: imageData.filename,
       path: imageData.path,
+      thumbnail: imageData.thumbnail,
       updated_at: knex.fn.now(),
       uploaded: true,
     });

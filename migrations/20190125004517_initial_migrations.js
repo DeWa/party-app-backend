@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     table.string('code').notNullable();
     table.string('filename');
     table.string('path');
+    table.string('thumbnail');
     table.boolean('uploaded').defaultTo(false);
     table.datetime('expires').notNullable();
     table.timestamps(true, true);

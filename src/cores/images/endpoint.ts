@@ -102,7 +102,16 @@ export default {
       // Write to database
       stream.on('close', async () => {
         try {
-          await updateImage(sharecode, { filename: file.name, path: stream.path });
+          // Create thumbnail
+          const thumbPath = path.join(os.tmpdir(), `thumb_${file.name}`);
+          await sharp(stream.path)
+            .resize(150)
+            .toFile(thumbPath);
+          await updateImage(sharecode, {
+            filename: file.name,
+            path: stream.path,
+            thumbnail: thumbPath,
+          });
           console.log(`Finished uploading file ${file.name} on ${stream.path}`);
         } catch (err) {
           console.log(err);

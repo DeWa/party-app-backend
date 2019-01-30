@@ -3,6 +3,7 @@ export interface IImage {
   code: string;
   filename: string;
   path: string;
+  thumbnail: string;
   uploaded: boolean;
   createdAt: Date;
   updatedAt: Date;
