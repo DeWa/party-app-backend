@@ -17,8 +17,8 @@ router.post('/images/:sharecode', koaBody({ multipart: true }), isPhotobooth, im
 router.get('/images', isClient, imageRoute.getImages);
 router.get('/images/:sharecode', isClient, imageRoute.getImageBySharecode);
 
-router.get('/get/thumb/:name', isClient, imageRoute.getThumbBinaryImage);
-router.get('/get/:name', isClient, imageRoute.getBinaryImage);
+router.get('/get/thumb/:name', imageRoute.getThumbBinaryImage);
+router.get('/get/:name', imageRoute.getBinaryImage);
 
 // Temporary Auth
 router.post('/login', koaBody(), authRoute.postLogin);
